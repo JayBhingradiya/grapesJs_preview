@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ImageSlider from "@/components/customImageSlider/sliderComponents";
 import SrollableLogos from "@/components/scrollableLogos/scrollableLogos";
 import FeaturedCategory from "../featuredCategory/featuredCategory";
@@ -20,6 +20,8 @@ import ConstantHorizantalScroll from "../constantHorizantalScroll/constantHoriza
 import DotSlideScroll from "../dotsSlideScroll/dotSlideScroll";
 import TabSection from "../tabs/tabs";
 import SimpleSlider from "../simpleSlider/simpleSlider";
+import SrollableLogos2 from "../scrollableLogos2/scrollableLogos2";
+import Accordion from "../accordion/accordion";
 
 const renderComponent = (component: any, index: number) => {
   if (component.type === "textnode") {
@@ -62,17 +64,89 @@ const renderComponent = (component: any, index: number) => {
       </button>
     );
   }
+
   if (type === "video") {
-    return (
-      <video
-        key={index}
-        src={component?.src}
-        autoPlay={attributes?.autoPlay}
-        controls={attributes?.controls}
-        loop={attributes?.loop}
-        muted
-      ></video>
-    );
+    if (component?.provider === "vi") {
+      return (
+        <>
+          <div
+            style={{
+              position: "relative",
+              paddingTop: "42.25%", // Maintain 16:9 aspect ratio
+            }}
+          >
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+              src={`${component?.src}?autoplay=1&muted=1&background=1`} // Ensure correct Vimeo params
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              title="Vimeo Video"
+            ></iframe>
+            <div className="flex justify-center items-center w-full absolute undefined inset-0 p-1 lg:p-4 text-white">
+              <div
+                className="max-w-6xl w-full"
+                style={{ background: "rgb(, 1)", padding: "20px" }}
+              >
+                <div
+                  className="normal-case text-[25px] sm:text-[38px] lg:text-[72px] font-family-1 leading-[28px] sm:leading-[47px] lg:leading-[80px] tracking-[1px] font-semibold text-center aos-init aos-animate"
+                  data-aos="zoom-in-up"
+                  style={{
+                    color: "#ffffff",
+                    textShadow: "2px 0px 6px  rgba(51, 51, 51, 0.3)",
+                  }}
+                >
+                  <h1>Corporate and Promotional Custom Branded Apparel</h1>
+                </div>
+                <div
+                  className="normal-case text-[13px] sm:text-[17px] lg:text-[20px] font-family-1 leading-[14px] sm:leading-[20px] lg:leading-[28px] tracking-[1.4px] font-normal text-center pt-[10px] sm:pt-[10px] lg:pt-[10px] aos-init aos-animate"
+                  data-aos="zoom-in"
+                  style={{
+                    color: "#ffffff",
+                    textShadow: "2px 0px 6px  rgba(51, 51, 51, 0.3)",
+                  }}
+                >
+                  Enjoy Expert Branding. Customize Premium Apparel and Logo
+                  Merchandise.
+                </div>
+                <div
+                  className="pt-0 lg:pt-5 text-center"
+                  title="Discover Our Brands"
+                >
+                  <a
+                    data-aos="zoom-in"
+                    title="Corporate Gear Offers Exclusive Access to Customize Your Logo on Premium Brands."
+                    target="_self"
+                    className="text-center uppercase text-[13px] sm:text-[17px] lg:text-[20px] leading-[14px] sm:leading-[19px] lg:leading-[24px] font-semibold inline-block custbtn-primary pl-[8px] sm:pl-[15px] lg:pl-[43px] pr-[8px] sm:pr-[15px] lg:pr-[43px] pt-[7px] sm:pt-[10px] lg:pt-[19px] pb-[7px] sm:pb-[10px] lg:pb-[19px] aos-init aos-animate bg-[#000000] rounded-[50px] px-[43px] py-[20px]"
+                    rel=""
+                    href="https://www.corporategear.com/brands.html"
+                  >
+                    <span>Discover Our Brands</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <video
+          key={index}
+          src={component?.src}
+          autoPlay={attributes?.autoPlay}
+          controls={attributes?.controls}
+          loop={attributes?.loop}
+          muted
+        ></video>
+      );
+    }
   }
 
   if (type === "link") {
@@ -91,6 +165,18 @@ const renderComponent = (component: any, index: number) => {
   if (type === "faq-section") {
     return <Faq key={index} />;
   }
+  if (type === "custom-code") {
+    return (
+      <Fragment key={`component-${index}`}>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: component["custom-code-plugin__code"],
+          }}
+        />
+      </Fragment>
+    );
+  }
+
   if (type === "hover-section") {
     return (
       <HoverTextSection
@@ -143,6 +229,10 @@ const renderComponent = (component: any, index: number) => {
     return <SimpleSlider key={`component-${index}`} />;
   } else if (type === "Slider-logos") {
     return <SrollableLogos slides={attributes?.logoSlides} key={index} />;
+  } else if (type === "Slider-logos2") {
+    return <SrollableLogos2 key={index} />;
+  } else if (type == "accordion") {
+    return <Accordion key={`component-${index}`} />;
   }
 
   return (
