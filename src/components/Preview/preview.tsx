@@ -140,10 +140,11 @@ const renderComponent = (component: any, index: number) => {
         <video
           key={index}
           src={component?.src}
-          autoPlay={attributes?.autoPlay}
-          controls={attributes?.controls}
-          loop={attributes?.loop}
+          autoPlay={component?.autoplay}
+          controls={component?.controls}
+          loop={component?.loop}
           muted
+          id={attributes.id}
         ></video>
       );
     }
